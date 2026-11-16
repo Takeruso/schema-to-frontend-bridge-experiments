@@ -1,0 +1,13 @@
+{
+  "level": 2,
+  "case": 4,
+  "run": 3,
+  "provider": "groq",
+  "model": "openai/gpt-oss-120b",
+  "seed": 0,
+  "served_by": null,
+  "served_model": "openai/gpt-oss-120b",
+  "timestamp": "2026-11-16T13:30:54.940301",
+  "prompt": "You are an expert in both Pydantic (Python) and Zod (TypeScript).\n\nConvert the following Pydantic model to a Zod schema.\n- Preserve ALL validator logic including @field_validator and @model_validator\n- Use .refine() for single-field constraints\n- Use .superRefine() for cross-field constraints\n- Output ONLY the TypeScript/Zod code, no explanation\n\nPydantic model:\nfrom pydantic import BaseModel, Field, ValidationError\n\n\nclass Model(BaseModel):\n    x: int = Field(multiple_of=5)\n",
+  "raw_response": "```typescript\nimport { z } from \"zod\";\n\nexport const ModelSchema = z.object({\n  x: z\n    .number()\n    .int()\n    .refine((val) => val % 5 === 0, { message: \"must be a multiple of 5\" }),\n});\n\nexport type Model = z.infer<typeof ModelSchema>;\n```"
+}

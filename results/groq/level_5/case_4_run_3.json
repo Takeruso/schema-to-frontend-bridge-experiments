@@ -1,0 +1,13 @@
+{
+  "level": 5,
+  "case": 4,
+  "run": 3,
+  "provider": "groq",
+  "model": "openai/gpt-oss-120b",
+  "seed": 0,
+  "served_by": null,
+  "served_model": "openai/gpt-oss-120b",
+  "timestamp": "2026-11-16T13:40:31.166182",
+  "prompt": "You are an expert in both Pydantic (Python) and Zod (TypeScript).\n\nConvert the following Pydantic model to a Zod schema.\n- Preserve ALL validator logic including @field_validator and @model_validator\n- Use .refine() for single-field constraints\n- Use .superRefine() for cross-field constraints\n- Output ONLY the TypeScript/Zod code, no explanation\n\nPydantic model:\nfrom typing_extensions import Self\n\nfrom pydantic import BaseModel, ValidationError, model_validator\n\n\nclass Square(BaseModel):\n    width: float\n    height: float\n\n    @model_validator(mode='after')\n    def verify_square(self) -> Self:\n        if self.width != self.height:\n            raise ValueError('width and height do not match')\n        return self\n",
+  "raw_response": "```ts\nimport { z } from \"zod\";\n\nexport const SquareSchema = z\n  .object({\n    width: z.number(),\n    height: z.number(),\n  })\n  .superRefine((data, ctx) => {\n    if (data.width !== data.height) {\n      ctx.addIssue({\n        code: z.ZodIssueCode.custom,\n        message: \"width and height do not match\",\n        path: [], // root level error\n      });\n    }\n  });\n\nexport type Square = z.infer<typeof SquareSchema>;\n```"
+}

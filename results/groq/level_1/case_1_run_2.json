@@ -1,0 +1,13 @@
+{
+  "level": 1,
+  "case": 1,
+  "run": 2,
+  "provider": "groq",
+  "model": "openai/gpt-oss-120b",
+  "seed": 0,
+  "served_by": null,
+  "served_model": "openai/gpt-oss-120b",
+  "timestamp": "2026-11-16T13:29:48.072572",
+  "prompt": "You are an expert in both Pydantic (Python) and Zod (TypeScript).\n\nConvert the following Pydantic model to a Zod schema.\n- Preserve ALL validator logic including @field_validator and @model_validator\n- Use .refine() for single-field constraints\n- Use .superRefine() for cross-field constraints\n- Output ONLY the TypeScript/Zod code, no explanation\n\nPydantic model:\nfrom pydantic import BaseModel\n\n\nclass User(BaseModel):\n    id: int\n    name: str = 'Jane Doe'\n",
+  "raw_response": "```typescript\nimport { z } from \"zod\";\n\nexport const UserSchema = z.object({\n  id: z.number().int(),\n  name: z.string().default(\"Jane Doe\"),\n});\n\nexport type User = z.infer<typeof UserSchema>;\n```"
+}

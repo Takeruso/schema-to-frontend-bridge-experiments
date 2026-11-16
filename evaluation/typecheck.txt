@@ -1,0 +1,28 @@
+results/groq/level_2/case_1_run_3.ts(2,21): error TS2307: Cannot find module 'decimal.js' or its corresponding type declarations.
+results/groq/level_2/case_1_run_3.ts(9,17): error TS18046: 'val' is of type 'unknown'.
+results/pydantic2zod/level_2/case_2.ts(14,29): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(def: number): ZodDefault<ZodNumber>', gave the following error.
+    Argument of type 'null' is not assignable to parameter of type 'number'.
+  Overload 2 of 2, '(def: () => number): ZodDefault<ZodNumber>', gave the following error.
+    Argument of type 'null' is not assignable to parameter of type '() => number'.
+results/pydantic2zod/level_2/case_3.ts(9,35): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(def: number): ZodDefault<ZodNumber>', gave the following error.
+    Argument of type 'null' is not assignable to parameter of type 'number'.
+  Overload 2 of 2, '(def: () => number): ZodDefault<ZodNumber>', gave the following error.
+    Argument of type 'null' is not assignable to parameter of type '() => number'.
+results/pydantic2zod/level_2/case_3.ts(10,36): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(def: number): ZodDefault<ZodNumber>', gave the following error.
+    Argument of type 'null' is not assignable to parameter of type 'number'.
+  Overload 2 of 2, '(def: () => number): ZodDefault<ZodNumber>', gave the following error.
+    Argument of type 'null' is not assignable to parameter of type '() => number'.
+results/pydantic2zod/level_2/case_4.ts(9,31): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(def: number): ZodDefault<ZodNumber>', gave the following error.
+    Argument of type 'null' is not assignable to parameter of type 'number'.
+  Overload 2 of 2, '(def: () => number): ZodDefault<ZodNumber>', gave the following error.
+    Argument of type 'null' is not assignable to parameter of type '() => number'.
+results/pydantic2zod/level_2/case_5.ts(9,25): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(def: string): ZodDefault<ZodString>', gave the following error.
+    Argument of type 'null' is not assignable to parameter of type 'string'.
+  Overload 2 of 2, '(def: () => string): ZodDefault<ZodString>', gave the following error.
+    Argument of type 'null' is not assignable to parameter of type '() => string'.
+results/pydantic2zod/level_3/case_1.ts(25,9): error TS2552: Cannot find name 'set'. Did you mean 'Set'?

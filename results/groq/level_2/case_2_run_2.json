@@ -1,0 +1,13 @@
+{
+  "level": 2,
+  "case": 2,
+  "run": 2,
+  "provider": "groq",
+  "model": "openai/gpt-oss-120b",
+  "seed": 0,
+  "served_by": null,
+  "served_model": "openai/gpt-oss-120b",
+  "timestamp": "2026-11-16T13:30:17.359266",
+  "prompt": "You are an expert in both Pydantic (Python) and Zod (TypeScript).\n\nConvert the following Pydantic model to a Zod schema.\n- Preserve ALL validator logic including @field_validator and @model_validator\n- Use .refine() for single-field constraints\n- Use .superRefine() for cross-field constraints\n- Output ONLY the TypeScript/Zod code, no explanation\n\nPydantic model:\nfrom typing import Annotated\n\nfrom fastapi import Body, FastAPI\nfrom pydantic import BaseModel, Field\n\n\nclass Item(BaseModel):\n    name: str\n    description: str | None = Field(\n        default=None, title=\"The description of the item\", max_length=300\n    )\n    price: float = Field(gt=0, description=\"The price must be greater than zero\")\n    tax: float | None = None\n",
+  "raw_response": "```typescript\nimport { z } from \"zod\";\n\nexport const ItemSchema = z.object({\n  name: z.string(),\n  description: z\n    .string()\n    .max(300)\n    .nullable()\n    .optional()\n    .default(null)\n    .describe(\"The description of the item\"),\n  price: z\n    .number()\n    .gt(0)\n    .describe(\"The price must be greater than zero\"),\n  tax: z\n    .number()\n    .nullable()\n    .optional()\n    .default(null),\n});\n\nexport type Item = z.infer<typeof ItemSchema>;\n```"
+}

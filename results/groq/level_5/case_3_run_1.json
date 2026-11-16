@@ -1,0 +1,13 @@
+{
+  "level": 5,
+  "case": 3,
+  "run": 1,
+  "provider": "groq",
+  "model": "openai/gpt-oss-120b",
+  "seed": 0,
+  "served_by": null,
+  "served_model": "openai/gpt-oss-120b",
+  "timestamp": "2026-11-16T13:39:35.700276",
+  "prompt": "You are an expert in both Pydantic (Python) and Zod (TypeScript).\n\nConvert the following Pydantic model to a Zod schema.\n- Preserve ALL validator logic including @field_validator and @model_validator\n- Use .refine() for single-field constraints\n- Use .superRefine() for cross-field constraints\n- Output ONLY the TypeScript/Zod code, no explanation\n\nPydantic model:\nfrom pydantic import BaseModel, ValidationInfo, field_validator\n\n\nclass UserModel(BaseModel):\n    password: str\n    password_repeat: str\n    username: str\n\n    @field_validator('password_repeat', mode='after')\n    @classmethod\n    def check_passwords_match(cls, value: str, info: ValidationInfo) -> str:\n        if value != info.data['password']:\n            raise ValueError('Passwords do not match')\n        return value\n",
+  "raw_response": "```typescript\nimport { z } from \"zod\";\n\nexport const UserSchema = z\n  .object({\n    password: z.string(),\n    password_repeat: z.string(),\n    username: z.string(),\n  })\n  .superRefine((data, ctx) => {\n    if (data.password_repeat !== data.password) {\n      ctx.addIssue({\n        code: z.ZodIssueCode.custom,\n        path: [\"password_repeat\"],\n        message: \"Passwords do not match\",\n      });\n    }\n  });\n```"
+}

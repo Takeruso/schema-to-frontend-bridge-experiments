@@ -1,0 +1,13 @@
+{
+  "level": 5,
+  "case": 2,
+  "run": 2,
+  "provider": "groq",
+  "model": "openai/gpt-oss-120b",
+  "seed": 0,
+  "served_by": null,
+  "served_model": "openai/gpt-oss-120b",
+  "timestamp": "2026-11-16T13:39:13.688954",
+  "prompt": "You are an expert in both Pydantic (Python) and Zod (TypeScript).\n\nConvert the following Pydantic model to a Zod schema.\n- Preserve ALL validator logic including @field_validator and @model_validator\n- Use .refine() for single-field constraints\n- Use .superRefine() for cross-field constraints\n- Output ONLY the TypeScript/Zod code, no explanation\n\nPydantic model:\nfrom typing import Any\n\nfrom pydantic import BaseModel, model_validator\n\n\nclass UserModel(BaseModel):\n    username: str\n\n    @model_validator(mode='before')\n    @classmethod\n    def check_card_number_not_present(cls, data: Any) -> Any:  # (1)!\n        if isinstance(data, dict):  # (2)!\n            if 'card_number' in data:\n                raise ValueError(\"'card_number' should not be included\")\n        return data\n",
+  "raw_response": "```typescript\nimport { z } from \"zod\";\n\nexport const UserSchema = z\n  .object({\n    username: z.string(),\n  })\n  .superRefine((data, ctx) => {\n    if (\"card_number\" in data) {\n      ctx.addIssue({\n        code: z.ZodIssueCode.custom,\n        message: \"'card_number' should not be included\",\n        path: [\"card_number\"],\n      });\n    }\n  });\n```"
+}

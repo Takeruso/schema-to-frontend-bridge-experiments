@@ -1,0 +1,13 @@
+{
+  "level": 3,
+  "case": 3,
+  "run": 2,
+  "provider": "groq",
+  "model": "openai/gpt-oss-120b",
+  "seed": 0,
+  "served_by": null,
+  "served_model": "openai/gpt-oss-120b",
+  "timestamp": "2026-11-16T13:31:53.274934",
+  "prompt": "You are an expert in both Pydantic (Python) and Zod (TypeScript).\n\nConvert the following Pydantic model to a Zod schema.\n- Preserve ALL validator logic including @field_validator and @model_validator\n- Use .refine() for single-field constraints\n- Use .superRefine() for cross-field constraints\n- Output ONLY the TypeScript/Zod code, no explanation\n\nPydantic model:\nfrom typing import Optional\n\nfrom pydantic import BaseModel\n\n\nclass Foo(BaseModel):\n    count: int\n    size: Optional[float] = None\n\n\nclass Bar(BaseModel):\n    apple: str = 'x'\n    banana: str = 'y'\n\n\nclass Spam(BaseModel):\n    foo: Foo\n    bars: list[Bar]\n",
+  "raw_response": "```typescript\nimport { z } from \"zod\";\n\nexport const FooSchema = z.object({\n  count: z.number().int(),\n  size: z.number().nullable().optional(),\n});\n\nexport const BarSchema = z.object({\n  apple: z.string().default(\"x\"),\n  banana: z.string().default(\"y\"),\n});\n\nexport const SpamSchema = z.object({\n  foo: FooSchema,\n  bars: z.array(BarSchema),\n});\n```"
+}

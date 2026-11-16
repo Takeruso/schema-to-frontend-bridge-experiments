@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use these artifacts, please cite the paper below."
+title: "Pydantic-to-Zod conversion: benchmark, outputs and evaluation"
+type: software
+authors:
+  - family-names: Sonoda
+    given-names: Takeru
+    affiliation: Swinburne University of Technology
+    orcid: "https://orcid.org/0009-0005-9392-365X"
+license: MIT
+preferred-citation:
+  type: conference-paper
+  status: in-press
+  title: "Schema-to-Frontend Bridge: Preserving Pydantic Validator Logic in LLM-Assisted Zod Schema Generation"
+  authors:
+    - family-names: Sonoda
+      given-names: Takeru
+      affiliation: Swinburne University of Technology
+      orcid: "https://orcid.org/0009-0005-9392-365X"
+    - family-names: Mitchell
+      given-names: Matthew
+      affiliation: Swinburne University of Technology
+  collection-title: "Proceedings of the 15th International Conference on Model-Based Software and Systems Engineering (MODELSWARD 2027)"
+  publisher:
+    name: SciTePress
+  year: 2027

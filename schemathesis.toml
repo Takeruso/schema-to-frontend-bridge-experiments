@@ -1,0 +1,5 @@
+[phases]
+examples.enabled = false
+fuzzing.enabled = false
+stateful.enabled = false
+coverage.enabled = true

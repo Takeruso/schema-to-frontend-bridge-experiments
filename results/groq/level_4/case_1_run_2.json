@@ -1,0 +1,13 @@
+{
+  "level": 4,
+  "case": 1,
+  "run": 2,
+  "provider": "groq",
+  "model": "openai/gpt-oss-120b",
+  "seed": 0,
+  "served_by": null,
+  "served_model": "openai/gpt-oss-120b",
+  "timestamp": "2026-11-16T13:35:52.937762",
+  "prompt": "You are an expert in both Pydantic (Python) and Zod (TypeScript).\n\nConvert the following Pydantic model to a Zod schema.\n- Preserve ALL validator logic including @field_validator and @model_validator\n- Use .refine() for single-field constraints\n- Use .superRefine() for cross-field constraints\n- Output ONLY the TypeScript/Zod code, no explanation\n\nPydantic model:\nfrom pydantic import BaseModel, field_validator\n\n\nclass Model(BaseModel):\n    f1: str\n    f2: str\n\n    @field_validator('f1', 'f2', mode='before')\n    @classmethod\n    def capitalize(cls, value: str) -> str:\n        return value.capitalize()\n",
+  "raw_response": "```typescript\nimport { z } from \"zod\";\n\nconst capitalize = (value: string): string =>\n  value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();\n\nexport const Model = z.object({\n  f1: z.string().transform(capitalize),\n  f2: z.string().transform(capitalize),\n});\n```"
+}

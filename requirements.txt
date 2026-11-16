@@ -1,0 +1,12 @@
+# With these versions the files in results/openapi,
+# results/pydantic2zod and results/hey regenerate byte-for-byte.
+# Pydantic 2.13.0 and later change the Level 3 OpenAPI schema
+# (Offer-Input / Offer-Output become a single Offer), so Pydantic
+# is pinned to the last 2.12 release.
+fastapi==0.136.1
+pydantic==2.12.5
+pydantic2zod==0.1.1
+
+# Only needed for run_benchmark_groq.py
+openai==2.33.0
+python-dotenv==1.2.2

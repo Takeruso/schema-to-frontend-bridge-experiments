@@ -1,0 +1,13 @@
+{
+  "level": 2,
+  "case": 1,
+  "run": 3,
+  "provider": "groq",
+  "model": "openai/gpt-oss-120b",
+  "seed": 0,
+  "served_by": null,
+  "served_model": "openai/gpt-oss-120b",
+  "timestamp": "2026-11-16T13:30:04.089445",
+  "prompt": "You are an expert in both Pydantic (Python) and Zod (TypeScript).\n\nConvert the following Pydantic model to a Zod schema.\n- Preserve ALL validator logic including @field_validator and @model_validator\n- Use .refine() for single-field constraints\n- Use .superRefine() for cross-field constraints\n- Output ONLY the TypeScript/Zod code, no explanation\n\nPydantic model:\nfrom decimal import Decimal\n\nfrom pydantic import BaseModel, Field\n\n\nclass Model(BaseModel):\n    positive: int = Field(gt=0)\n    short_str: str = Field(max_length=3)\n    precise_decimal: Decimal = Field(max_digits=5, decimal_places=2)\n",
+  "raw_response": "```ts\nimport { z } from \"zod\";\nimport Decimal from \"decimal.js\";\n\nexport const ModelSchema = z.object({\n  positive: z.number().int().gt(0),\n  short_str: z.string().max(3),\n  precise_decimal: z.custom<Decimal>((val) => {\n    if (!(val instanceof Decimal)) return false;\n    const str = val.toFixed(); // plain string representation\n    const [intPart, fracPart] = str.split(\".\");\n    const totalDigits =\n      intPart.replace(\"-\", \"\").length + (fracPart ? fracPart.length : 0);\n    const decimalPlaces = fracPart ? fracPart.length : 0;\n    return totalDigits <= 5 && decimalPlaces <= 2;\n  }, {\n    message:\n      \"precise_decimal must have at most 5 total digits and at most 2 decimal places\",\n  }),\n});\n```"
+}

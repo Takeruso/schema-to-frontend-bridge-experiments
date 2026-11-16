@@ -1,0 +1,13 @@
+{
+  "level": 2,
+  "case": 3,
+  "run": 3,
+  "provider": "groq",
+  "model": "openai/gpt-oss-120b",
+  "seed": 0,
+  "served_by": null,
+  "served_model": "openai/gpt-oss-120b",
+  "timestamp": "2026-11-16T13:30:42.290309",
+  "prompt": "You are an expert in both Pydantic (Python) and Zod (TypeScript).\n\nConvert the following Pydantic model to a Zod schema.\n- Preserve ALL validator logic including @field_validator and @model_validator\n- Use .refine() for single-field constraints\n- Use .superRefine() for cross-field constraints\n- Output ONLY the TypeScript/Zod code, no explanation\n\nPydantic model:\nfrom typing import Annotated, Literal\n\nfrom fastapi import FastAPI, Query\nfrom pydantic import BaseModel, Field\n\n\nclass FilterParams(BaseModel):\n    limit: int = Field(100, gt=0, le=100)\n    offset: int = Field(0, ge=0)\n    order_by: Literal[\"created_at\", \"updated_at\"] = \"created_at\"\n    tags: list[str] = []\n",
+  "raw_response": "```typescript\nimport { z } from \"zod\";\n\nexport const FilterParamsSchema = z.object({\n  limit: z\n    .number()\n    .int()\n    .default(100)\n    .refine((v) => v > 0, { message: \"limit must be greater than 0\" })\n    .refine((v) => v <= 100, { message: \"limit must be less than or equal to 100\" }),\n  offset: z\n    .number()\n    .int()\n    .default(0)\n    .refine((v) => v >= 0, { message: \"offset must be greater than or equal to 0\" }),\n  order_by: z\n    .enum([\"created_at\", \"updated_at\"])\n    .default(\"created_at\"),\n  tags: z\n    .array(z.string())\n    .default([]),\n});\n```"
+}

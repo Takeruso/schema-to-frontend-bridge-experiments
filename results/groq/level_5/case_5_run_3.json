@@ -1,0 +1,13 @@
+{
+  "level": 5,
+  "case": 5,
+  "run": 3,
+  "provider": "groq",
+  "model": "openai/gpt-oss-120b",
+  "seed": 0,
+  "served_by": null,
+  "served_model": "openai/gpt-oss-120b",
+  "timestamp": "2026-11-16T13:41:04.773922",
+  "prompt": "You are an expert in both Pydantic (Python) and Zod (TypeScript).\n\nConvert the following Pydantic model to a Zod schema.\n- Preserve ALL validator logic including @field_validator and @model_validator\n- Use .refine() for single-field constraints\n- Use .superRefine() for cross-field constraints\n- Output ONLY the TypeScript/Zod code, no explanation\n\nPydantic model:\nfrom typing_extensions import Self\n\nfrom pydantic import BaseModel, ValidationError, model_validator\n\n\nclass User(BaseModel):\n    username: str\n    password: str\n\n\nclass Organization(BaseModel):\n    forbidden_passwords: list[str]\n    users: list[User]\n\n    @model_validator(mode='after')\n    def validate_user_passwords(self) -> Self:\n        \"\"\"Check that user password is not in forbidden list. Raise a validation error if a forbidden password is encountered.\"\"\"\n        for user in self.users:\n            current_pw = user.password\n            if current_pw in self.forbidden_passwords:\n                raise ValueError(\n                    f'Password {current_pw} is forbidden. Please choose another password for user {user.username}.'\n                )\n        return self\n",
+  "raw_response": "```ts\nimport { z } from \"zod\";\n\nexport const UserSchema = z.object({\n  username: z.string(),\n  password: z.string(),\n});\n\nexport const OrganizationSchema = z\n  .object({\n    forbidden_passwords: z.array(z.string()),\n    users: z.array(UserSchema),\n  })\n  .superRefine((data, ctx) => {\n    data.users.forEach((user, idx) => {\n      if (data.forbidden_passwords.includes(user.password)) {\n        ctx.addIssue({\n          code: z.ZodIssueCode.custom,\n          message: `Password ${user.password} is forbidden. Please choose another password for user ${user.username}.`,\n          path: [\"users\", idx, \"password\"],\n        });\n      }\n    });\n  });\n```"
+}

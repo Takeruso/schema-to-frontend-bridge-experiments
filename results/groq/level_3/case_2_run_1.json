@@ -1,0 +1,13 @@
+{
+  "level": 3,
+  "case": 2,
+  "run": 1,
+  "provider": "groq",
+  "model": "openai/gpt-oss-120b",
+  "seed": 0,
+  "served_by": null,
+  "served_model": "openai/gpt-oss-120b",
+  "timestamp": "2026-11-16T13:31:29.246082",
+  "prompt": "You are an expert in both Pydantic (Python) and Zod (TypeScript).\n\nConvert the following Pydantic model to a Zod schema.\n- Preserve ALL validator logic including @field_validator and @model_validator\n- Use .refine() for single-field constraints\n- Use .superRefine() for cross-field constraints\n- Output ONLY the TypeScript/Zod code, no explanation\n\nPydantic model:\nfrom fastapi import FastAPI\nfrom pydantic import BaseModel, HttpUrl\n\n\nclass Image(BaseModel):\n    url: HttpUrl\n    name: str\n\n\nclass Item(BaseModel):\n    name: str\n    description: str | None = None\n    price: float\n    tax: float | None = None\n    tags: set[str] = set()\n    images: list[Image] | None = None\n\n\nclass Offer(BaseModel):\n    name: str\n    description: str | None = None\n    price: float\n    items: list[Item]\n",
+  "raw_response": "```typescript\nimport { z } from \"zod\";\n\nexport const ImageSchema = z.object({\n  url: z.string().url(),\n  name: z.string(),\n});\n\nexport const ItemSchema = z.object({\n  name: z.string(),\n  description: z.string().nullable().optional(),\n  price: z.number(),\n  tax: z.number().nullable().optional(),\n  tags: z.array(z.string()).default([]),\n  images: z.array(ImageSchema).nullable().optional(),\n});\n\nexport const OfferSchema = z.object({\n  name: z.string(),\n  description: z.string().nullable().optional(),\n  price: z.number(),\n  items: z.array(ItemSchema),\n});\n```"
+}
